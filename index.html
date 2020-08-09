@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <title>Evaluación 1 - Ley de composición interna</title>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center mt-4">Introduzca Operación a realizar</h1>
+        <form>
+            <div class="row justify-content-center">
+                <div class="col-6">
+                    <div class="form-group mt-4">
+                        <label for="operacion" class="lead">Operación</label>
+                        <input type="text" class="form-control mt-2" id="operacion" placeholder="e. g. 100/2*5">
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-6">
+                    <div class="form-group mt-4">
+                        <label for="conjunto" class="mr-3 lead">Conjunto al que pertenece</label>
+                        <select class="form-control mt-2" style="width: auto" name="conjunto" id="conjunto">
+                            <option value="nula">---</option>
+                            <option value="naturales">N</option>
+                            <option value="enteros">Z</option>
+                            <option value="racionales">Q</option>
+                            <option value="irracionales">I</option>
+                            <option value="reales">R</option>
+                        </select>              
+                    </div>
+                    <button type="button" class="btn btn-info mt-4">Realizar</button>
+                </div>
+            </div>
+        </form>
+        <div class="row justify-content-center">
+            <div class="col-6">
+                <p class="lead mt-3">Solución: </p>
+                <p class="lead conjunto"></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/mathjs@7.1.0/dist/math.js"></script>
+    <script src="sandbox.js"></script>
+</body>
+</html>
