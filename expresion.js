@@ -141,7 +141,6 @@ class Expresion{
             if(element === 'a' || element === 'b')
                 arrayInput[index] = number;
         });
-        console.log(arrayInput.join(''));
         return arrayInput.join('');
     }
 
@@ -155,7 +154,6 @@ class Expresion{
                 else arrayInput[index] = secondNumber;                   
             }           
         });
-        console.log(arrayInput.join(''));
         return arrayInput.join('');
     }
 
