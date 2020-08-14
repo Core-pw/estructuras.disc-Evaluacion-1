@@ -1,7 +1,7 @@
 class Expresion{
-    constructor(input, conjunto){
-        this.input = input;
-        this.conjunto = conjunto;
+    constructor(){
+        this.input;
+        this.conjunto;
     }
 
     static evaluations = 0;
@@ -165,10 +165,9 @@ class Expresion{
         historial.innerHTML += `${this.input}= ${operacion}<br>`; 
         Expresion.evaluations++;
         
-        if(Expresion.evaluations > 3){
+        if(Expresion.evaluations > 5){
             historial.innerHTML = '';
             historial.innerHTML += `${this.input}= ${operacion}<br>`; 
         }
     }
-
 }

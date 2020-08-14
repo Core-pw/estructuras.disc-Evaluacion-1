@@ -3,9 +3,12 @@ const conjunto = document.querySelector('select');
 const respuesta = document.querySelector('p');
 const historial = document.querySelector('p.historial');
 
+const operacion = new Expresion();
+
 form.addEventListener('submit', e => {
     e.preventDefault();
 
-    const operacion = new Expresion(form.operacion.value, conjunto.value);
+    operacion.input = form.operacion.value;
+    operacion.conjunto = conjunto.value;
     operacion.evaluate();
 });
