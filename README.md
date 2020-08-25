@@ -5,3 +5,5 @@ El siguiente repositorio es en preparacion a la primera evaluación, actualmente
 12/08 - En esta ultima actualizacion se **elimino** el uso de la libreria matemática **mathjs** ya que el profesor indico que se usaria JavaScript puro **sin usar librerias**, hubieron **cambios menores en el index.html**, se **completaron las validaciones** y ademas se **mejoro el codigo en Js simplificandolo y mejorandolo con POO**.
 
 13/08 - Se añadio un historial y se detecta si el usuario introduce 'a' o 'b', entre otros cambios menores.
+
+24/08 - Resuelve raices cubicas, se volvio a usar mathjs, mejoras en el codigo.

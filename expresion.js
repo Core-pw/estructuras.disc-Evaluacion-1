@@ -9,7 +9,7 @@ class Expresion{
     evaluate(){
         try {
             this.input = this.detectVar();
-            const operacion = this.getInput();
+            const operacion = math.evaluate(this.input);
 
             if(operacion !== undefined){
                 respuesta.innerHTML = 'Solución: ' + operacion + '<br>';
@@ -30,14 +30,14 @@ class Expresion{
                         break;
             
                     case 'racionales':
-                        if(!Number.isNaN(operacion))
+                        if(typeof operacion !== 'object')
                             respuesta.innerHTML += 'Pertenece al conjunto de los números Racionales';
                         else
                             respuesta.innerHTML += 'No pertenece al conjunto de los números Racionales';
                         break;
     
                     case 'irracionales':
-                        if(Number.isNaN(operacion))
+                        if(typeof operacion === 'object')
                             respuesta.innerHTML += 'Pertenece al conjunto de los números Irracionales';
                         else
                             respuesta.innerHTML += 'No pertenece al conjunto de los números Irracionales';
@@ -56,18 +56,25 @@ class Expresion{
             }else respuesta.innerHTML = "Por favor no deje vacío el campo de operación<br>ni introduzca caracteres no aceptados";
            
         } catch {
-            respuesta.innerHTML = "Por favor introduzca una expresión valida";
+            respuesta.innerHTML = "Por favor introduzca una expresión valida y un conjunto";
         }
     }
 
     detectVar(){
-        if(!this.input.includes('Math') && this.input.indexOf('a') >= 0 && this.input.indexOf('b') >= 0)
+        if(this.input.indexOf('cbrt') === 0 && this.input.indexOf('a') > 3 && this.input.lastIndexOf('b') > 4)
             return this.twoVar();
 
-        else if(!this.input.includes('Math') && this.input.indexOf('a') >= 0 || this.input.indexOf('b') >= 0)
+        else if(this.input.indexOf('cbrt') === 0 && this.input.indexOf('a') > 4 || this.input.indexOf('cbrt') === 0 && this.input.lastIndexOf('b') > 4)
             return this.oneVar();
 
-        else return this.input;
+        else if(this.input.indexOf('cbrt') === -1 && this.input.indexOf('a') >= 0 && this.input.indexOf('b') >= 0)
+            return this.twoVar();
+
+        else if(this.input.indexOf('cbrt') === -1 && this.input.indexOf('a') >= 0 || this.input.indexOf('cbrt') === -1 && this.input.indexOf('b') >= 0)
+            return this.oneVar();
+            
+        else
+            return this.input;
     }
 
     oneVar(){
@@ -88,7 +95,7 @@ class Expresion{
                 break;
             
             case 'irracionales':
-                number = Math.sqrt(-1*this.randomNumber(1, 99));
+                number = math.sqrt(-1*this.randomNumber(1, 99));
                 break;
             
             case 'reales':
@@ -119,8 +126,8 @@ class Expresion{
                 break;
             
             case 'irracionales':
-                firstNumber = Math.sqrt(-1*this.randomNumber(1, 99));
-                secondNumber = Math.sqrt(-1*this.randomNumber(1, 99));
+                firstNumber = math.sqrt(-1*this.randomNumber(1, 99));
+                secondNumber = math.sqrt(-1*this.randomNumber(1, 99));
                 break;
             
             case 'reales':
@@ -137,28 +144,43 @@ class Expresion{
     insertOneNumber(number){
         const arrayInput = [...this.input];
 
-        arrayInput.forEach((element, index) => {
-            if(element === 'a' || element === 'b')
-                arrayInput[index] = number;
-        });
+        if(this.input.includes('cbrt')){
+            arrayInput.forEach((element, index) => {
+                if(index > 4 && element === 'a' || index > 4 && element === 'b')
+                    arrayInput[index] = number;
+            });
+        }
+        else{
+            arrayInput.forEach((element, index) => {
+                if(element === 'a' || element === 'b')
+                    arrayInput[index] = number;
+            });
+        }
         return arrayInput.join('');
     }
 
     insertTwoNumbers(firstNumber, secondNumber){
         const arrayInput = [...this.input];
 
-        arrayInput.forEach((element, index) => {
-            if(element === 'a' || element === 'b'){
-                if(element === 'a')
+        if(this.input.includes('cbrt')){
+            arrayInput.forEach((element, index) => {
+                if(index > 4 && element === 'a')
                     arrayInput[index] = firstNumber;
-                else arrayInput[index] = secondNumber;                   
-            }           
-        });
+                else if(index > 4 && element === 'b')
+                    arrayInput[index] = secondNumber;
+            });
+        }
+        else{
+            arrayInput.forEach((element, index) => {
+                if(element === 'a' || element === 'b'){
+                    if(element === 'a')
+                        arrayInput[index] = firstNumber;
+                    else
+                    arrayInput[index] = secondNumber;                   
+                }           
+            });
+        }
         return arrayInput.join('');
-    }
-
-    getInput(){
-        return new Function(`return ${this.input}`)();
     }
 
     updateHistory(operacion){
