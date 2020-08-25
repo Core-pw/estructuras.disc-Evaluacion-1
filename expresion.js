@@ -10,6 +10,7 @@ class Expresion{
         try {
             this.input = this.detectVar();
             const operacion = math.evaluate(this.input);
+            console.log(typeof operacion);
 
             if(operacion !== undefined){
                 respuesta.innerHTML = 'Solución: ' + operacion + '<br>';
@@ -30,21 +31,35 @@ class Expresion{
                         break;
             
                     case 'racionales':
-                        if(typeof operacion !== 'object')
+                        if(typeof operacion !== 'object' && operacion.toString().length < 14)
                             respuesta.innerHTML += 'Pertenece al conjunto de los números Racionales';
                         else
                             respuesta.innerHTML += 'No pertenece al conjunto de los números Racionales';
                         break;
     
                     case 'irracionales':
-                        if(typeof operacion === 'object')
+                        if(typeof operacion !== 'object' && operacion.toString().length >= 14)
                             respuesta.innerHTML += 'Pertenece al conjunto de los números Irracionales';
                         else
                             respuesta.innerHTML += 'No pertenece al conjunto de los números Irracionales';
                         break;
     
                     case 'reales':
-                        respuesta.innerHTML += 'Pertenece al conjunto de los números Reales';
+                        if(typeof operacion !== 'object')
+                            respuesta.innerHTML += 'Pertenece al conjunto de los números Reales';
+                        else
+                            respuesta.innerHTML += 'No pertenece al conjunto de los números Reales';
+                        break;
+
+                    case 'imaginarios':
+                        if(typeof operacion === 'object')
+                            respuesta.innerHTML += 'Pertenece al conjunto de los números Imaginarios';
+                        else
+                            respuesta.innerHTML += 'No pertenece al conjunto de los números Imaginarios';
+                        break;
+
+                    case 'complejos':
+                        respuesta.innerHTML += 'Pertenece al conjunto de los números Complejos';
                         break;
     
                     default:
@@ -79,6 +94,7 @@ class Expresion{
 
     oneVar(){
         let signo = Math.random() < 0.50 ? -1 : 1;
+        let irRandom = Math.random() < 0.50 ? Math.PI : Math.E;
         let number;
 
         switch (this.conjunto) {
@@ -95,11 +111,19 @@ class Expresion{
                 break;
             
             case 'irracionales':
-                number = math.sqrt(-1*this.randomNumber(1, 99));
+                number = irRandom;
                 break;
             
             case 'reales':
-                number = signo*this.randomNumber(0, 99);          
+                number = signo*this.randomNumber(0, 99);
+                break;
+                
+            case 'imaginarios':
+                number = math.sqrt(-1*this.randomNumber(1, 99));
+                break;
+
+            case 'complejos':
+                number = signo*this.randomNumber(0, 99);
         }
        return this.insertOneNumber(number.toString());
     }
@@ -126,13 +150,23 @@ class Expresion{
                 break;
             
             case 'irracionales':
-                firstNumber = math.sqrt(-1*this.randomNumber(1, 99));
-                secondNumber = math.sqrt(-1*this.randomNumber(1, 99));
+                firstNumber  = Math.PI;
+                secondNumber = Math.E;
                 break;
             
             case 'reales':
                 firstNumber = signo*this.randomNumber(0, 99);
-                secondNumber = signo*this.randomNumber(0, 99);           
+                secondNumber = signo*this.randomNumber(0, 99);
+                break;
+                
+            case 'imaginarios':
+                firstNumber = math.sqrt(-1*this.randomNumber(1, 99));
+                secondNumber = math.sqrt(-1*this.randomNumber(1, 99));
+                break;
+    
+            case 'complejos':
+                firstNumber = signo*this.randomNumber(0, 99);
+                secondNumber = signo*this.randomNumber(0, 99);
         }
        return this.insertTwoNumbers(firstNumber.toString(), secondNumber.toString());
     }
