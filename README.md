@@ -7,5 +7,3 @@ El siguiente repositorio es en preparacion a la primera evaluación, actualmente
 13/08 - Se añadio un historial y se detecta si el usuario introduce 'a' o 'b', entre otros cambios menores.
 
 24/08 - Resuelve raices cubicas, se volvio a usar mathjs, mejoras en el codigo.
-
-30/09 - Se le añadio Elemento Neutro y Propiedad Conmutativa mostrando el resultado directo sin procedimiento.

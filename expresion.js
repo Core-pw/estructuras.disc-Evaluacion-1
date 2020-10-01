@@ -1,71 +1,82 @@
 class Expresion{
     constructor(){
         this.input;
-        this.inputFinal;
-        this.conjunto;  
+        this.conjunto;
     }
 
     static evaluations = 0;
-    static operacion = 0;
 
     evaluate(){
-        // let neutro = false;
-        // let conmutativa = false;
-
-        // if(this.inputFinal.includes('e')){
-        //     neutro = true;
-        // }
-        // else if(!this.inputFinal.includes('e')){
-        //     conmutativa = true
-        // }
-
         try {
-            this.inputFinal = this.detectVar();
+            this.input = this.detectVar();
+            const operacion = math.evaluate(this.input);
 
-            Expresion.operacion = math.evaluate(this.inputFinal);
-            // console.log(typeof Expresion.operacion);
+            if(operacion !== undefined){
+                respuesta.innerHTML = 'Solución: ' + this.input + ' = ' + operacion + '<br>';
 
-            if(Expresion.operacion !== undefined){
-                respuesta.innerHTML = 'Solución: ' + this.inputFinal + ' = ' + Expresion.operacion + '<br>';
+                historial.innerHTML += `
+                                        a + b - 8 <br>
+                                        
+                                        <br>
+
+                                        Elemento neutro <br>
+                                        a + e - 8 = a <br>
+                                        e = 8 <br>
+
+                                        <br>
+
+                                        Elemento inverso <br>
+                                        a + a' - 8 = 8 <br>
+                                        a' = 16 + a <br>
+
+                                        <br>
+
+                                        Propiedad Conmutativa <br>
+                                        a + b - 8 = b + a - 8 <br>
+
+                                        <br>
+
+                                        Propiedad Asociativa <br>
+                                        `;
     
                 switch (this.conjunto) {
                     case 'naturales':
-                        if(Expresion.operacion !== 0 && Expresion.operacion === Math.trunc(Expresion.operacion) && Expresion.operacion === Math.abs(Expresion.operacion))
+                        if(operacion !== 0 && operacion === Math.trunc(operacion) && operacion === Math.abs(operacion))
                             respuesta.innerHTML += 'Pertenece al conjunto de los números Naturales';
                         else
                             respuesta.innerHTML += 'No pertenece al conjunto de los números Naturales';
                         break;
     
                     case 'enteros':
-                        if(Expresion.operacion === Math.trunc(Expresion.operacion))
+                        if(operacion === Math.trunc(operacion))
                             respuesta.innerHTML += 'Pertenece al conjunto de los números Enteros';
                         else
                             respuesta.innerHTML += 'No pertenece al conjunto de los números Enteros';
                         break;
             
                     case 'racionales':
-                        if(typeof Expresion.operacion !== 'object' && Expresion.operacion.toString().length < 14)
+                        if(typeof operacion !== 'object' && operacion.toString().length < 14)
                             respuesta.innerHTML += 'Pertenece al conjunto de los números Racionales';
                         else
                             respuesta.innerHTML += 'No pertenece al conjunto de los números Racionales';
                         break;
     
                     case 'irracionales':
-                        if(typeof Expresion.operacion !== 'object' && Expresion.operacion.toString().length >= 14)
+                        if(typeof operacion !== 'object' && operacion.toString().length >= 14)
                             respuesta.innerHTML += 'Pertenece al conjunto de los números Irracionales';
                         else
                             respuesta.innerHTML += 'No pertenece al conjunto de los números Irracionales';
                         break;
     
                     case 'reales':
-                        if(typeof Expresion.operacion !== 'object')
+                        if(typeof operacion !== 'object')
                             respuesta.innerHTML += 'Pertenece al conjunto de los números Reales';
                         else
                             respuesta.innerHTML += 'No pertenece al conjunto de los números Reales';
                         break;
 
                     case 'imaginarios':
-                        if(typeof Expresion.operacion === 'object')
+                        if(typeof operacion === 'object')
                             respuesta.innerHTML += 'Pertenece al conjunto de los números Imaginarios';
                         else
                             respuesta.innerHTML += 'No pertenece al conjunto de los números Imaginarios';
@@ -78,14 +89,8 @@ class Expresion{
                     default:
                         respuesta.innerHTML += 'Por favor escoja un conjunto';
                 }
-
-                if(Expresion.evaluations >= 1){
-                    historial.innerHTML = '';
-                }
-
-                this.updateNeutro(this.elementoNeutro());
-                this.updateConmutativa(this.propiedadConmutativa());
-                
+                // this.updateHistory(operacion);
+    
             }else respuesta.innerHTML = "Por favor no deje vacío el campo de operación<br>ni introduzca caracteres no aceptados";
            
         } catch {
@@ -105,7 +110,7 @@ class Expresion{
 
         else if(this.input.indexOf('cbrt') === -1 && this.input.indexOf('a') >= 0 || this.input.indexOf('cbrt') === -1 && this.input.indexOf('b') >= 0)
             return this.oneVar();
-        
+            
         else
             return this.input;
     }
@@ -119,31 +124,30 @@ class Expresion{
             case 'naturales':
                 number = this.randomNumber(1, 99);
                 break;
-    
+
             case 'enteros':
                 number = signo*this.randomNumber(0, 99);
                 break;
-                
+            
             case 'racionales':
                 number = signo*this.randomNumber(0, 99);
                 break;
-                
+            
             case 'irracionales':
                 number = irRandom;
                 break;
-                
+            
             case 'reales':
                 number = signo*this.randomNumber(0, 99);
                 break;
-                    
+                
             case 'imaginarios':
                 number = math.sqrt(-1*this.randomNumber(1, 99));
                 break;
-    
+
             case 'complejos':
                 number = signo*this.randomNumber(0, 99);
         }
-
        return this.insertOneNumber(number.toString());
     }
 
@@ -187,7 +191,6 @@ class Expresion{
                 firstNumber = signo*this.randomNumber(0, 99);
                 secondNumber = signo*this.randomNumber(0, 99);
         }
-
        return this.insertTwoNumbers(firstNumber.toString(), secondNumber.toString());
     }
 
@@ -237,66 +240,13 @@ class Expresion{
         return arrayInput.join('');
     }
 
-    updateNeutro(elemento){
-        historial.innerHTML += `
-                                Elemento Neutro<br> e = ${elemento}<br>
-                                `; 
-        Expresion.evaluations++;        
-    }
-
-    updateConmutativa(elemento){
-        historial.innerHTML += `
-                                Propiedad Conmutativa<br> ${this.input} = ${elemento}<br>
-                                `; 
-        Expresion.evaluations++;        
-    }
-
-    propiedadConmutativa(){
-        const arrayInput = [...this.input];
-        let nTI = '';
-        let numero = '';
-        let signo = '';
-        arrayInput.forEach((element, index) => {
-            if(isNaN(element) === false){
-                console.log('entro');
-                numero = arrayInput[index];
-                signo = arrayInput[index-1];
-
-                arrayInput.pop();
-                arrayInput.pop();
-                console.log(signo, numero);
-                console.log(arrayInput);
-
-                nTI = signo + numero;
-            }
-            else
-                nTI = '';
-        });
-
-        return arrayInput.join('').split(/([*+-\/])/).reverse().join('') + nTI;
-    }
-
-    elementoNeutro(){
-        const arrayInput = [...this.input];
-        let eNeutro = '';
-        let signo = '';
-        arrayInput.forEach((element, index) => {
-            if(isNaN(element) === false){
-                eNeutro = arrayInput[index];
-                signo = arrayInput[index-1];
-
-                if(signo === '+'){
-                    signo = '-';
-                }
-                else signo = '+';
-
- 
-            }
-            else{
-                eNeutro = '0';
-            }
-        });
-
-        return signo + eNeutro;
-    }
+    // updateHistory(operacion){
+    //     historial.innerHTML += `${this.input}= ${operacion}<br>`; 
+    //     Expresion.evaluations++;
+        
+    //     if(Expresion.evaluations > 5){
+    //         historial.innerHTML = '';
+    //         historial.innerHTML += `${this.input}= ${operacion}<br>`; 
+    //     }
+    // }
 }
